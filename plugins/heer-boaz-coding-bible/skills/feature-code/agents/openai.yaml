@@ -1,0 +1,6 @@
+interface:
+  display_name: "Feature Code"
+  short_description: "Implement features without architecture drift"
+  default_prompt: "Use $feature-code to implement this feature cleanly."
+policy:
+  allow_implicit_invocation: true

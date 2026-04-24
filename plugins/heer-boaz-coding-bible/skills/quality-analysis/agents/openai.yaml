@@ -1,0 +1,6 @@
+interface:
+  display_name: "Quality Analysis"
+  short_description: "Run and repair architecture quality checks"
+  default_prompt: "Use $quality-analysis to inspect these quality findings."
+policy:
+  allow_implicit_invocation: true

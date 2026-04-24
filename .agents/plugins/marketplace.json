@@ -1,0 +1,20 @@
+{
+  "name": "codex-coding-bible",
+  "interface": {
+    "displayName": "Codex Coding Bible"
+  },
+  "plugins": [
+    {
+      "name": "heer-boaz-coding-bible",
+      "source": {
+        "source": "local",
+        "path": "./plugins/heer-boaz-coding-bible"
+      },
+      "policy": {
+        "installation": "INSTALLED_BY_DEFAULT",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

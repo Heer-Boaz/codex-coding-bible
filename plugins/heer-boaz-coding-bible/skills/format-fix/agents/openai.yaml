@@ -1,0 +1,6 @@
+interface:
+  display_name: "Format Fix"
+  short_description: "Fix formatting with project-local tools"
+  default_prompt: "Use $format-fix to fix this formatting failure."
+policy:
+  allow_implicit_invocation: true

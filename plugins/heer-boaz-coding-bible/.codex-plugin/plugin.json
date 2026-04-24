@@ -1,0 +1,39 @@
+{
+  "name": "heer-boaz-coding-bible",
+  "version": "0.1.0",
+  "description": "Project-agnostic coding and architecture doctrine for direct, low-waste implementation, cleanup, analysis, and formatting work.",
+  "author": {
+    "name": "Heer Boaz"
+  },
+  "license": "UNLICENSED",
+  "repository": "https://github.com/Heer-Boaz/codex-coding-bible.git",
+  "keywords": [
+    "code-quality",
+    "architecture",
+    "refactoring",
+    "formatting",
+    "lua",
+    "cpp",
+    "c++",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Heer Boaz Coding Bible",
+    "shortDescription": "Strict coding, architecture, analysis, and formatting doctrine.",
+    "longDescription": "A project-agnostic set of Codex skills for implementing features, removing architecture debt, running quality analysis, and fixing formatting without adding defensive clutter, legacy fallbacks, suppressions, or ownership-hiding layers.",
+    "developerName": "Heer Boaz",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Review"
+    ],
+    "defaultPrompt": [
+      "Use the coding bible to implement this feature cleanly.",
+      "Use the coding bible to remove this architecture debt.",
+      "Use the coding bible to run quality analysis and fix real issues."
+    ],
+    "brandColor": "#111827"
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lean Code"
+  short_description: "Remove code and architecture debt directly"
+  default_prompt: "Use $lean-code to remove this architecture debt."
+policy:
+  allow_implicit_invocation: true
