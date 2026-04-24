@@ -34,6 +34,8 @@
       "Use the coding bible to remove this architecture debt.",
       "Use the coding bible to run quality analysis and fix real issues."
     ],
-    "brandColor": "#111827"
+    "brandColor": "#111827",
+    "composerIcon": "./assets/coding-bible-icon.svg",
+    "logo": "./assets/coding-bible-icon.svg"
   }
 }
