@@ -16,6 +16,58 @@ any codebase.
 - Keep parallel implementations aligned conceptually. Divergence should come
   from language/runtime constraints, not accidental duplicate designs.
 
+## Mirrored Runtime Parity
+
+When a project has mirrored runtimes, such as TypeScript and C++, parity is a
+hard implementation contract, not a naming exercise. This is the
+mirrored-runtime parity gate for implementation, cleanup, analysis, and review
+work.
+
+- Mirrored runtime files must use the same relative path and basename unless an
+  explicit exclusion names why the file has no counterpart.
+- Public constants, functions, classes, and methods must match per mirrored file
+  pair unless an explicit exclusion names the language/runtime reason.
+- Runtime representation and ownership shape must match at boundaries. Do not
+  create fake, stub, type-only, or cosmetically mirrored files.
+- Before editing, identify the mirrored counterpart for every touched runtime
+  file. Do not add, delete, rename, or materially change one side without the
+  matching change or exclusion on the other side.
+- Run the project-local parity audit when it exists. Do not claim parity unless
+  the audit passes for the touched scope.
+- After editing, start a Codex subagent as an independent reviewer. The reviewer
+  must return a blocker for any introduced GC-churn or heap allocation in hot
+  paths. This is a hard fail, not an advisory warning.
+- If Codex subagents cannot be started because the current environment or policy
+  does not expose that capability, the gate has not passed. Say that explicitly,
+  run the blocker checklist locally, and do not claim mirrored runtime parity.
+
+Start a Codex subagent with this review prompt:
+
+```text
+Review this diff against all Coding Bible code and architecture rules. Read and
+apply the relevant plugin references, especially coding-architecture-rules.md,
+anti-patterns.md, and the language-specific rules for touched Lua or C++ files.
+
+Hard rules:
+- every code or architecture rule violation is a blocker
+- wrong ownership, hidden public contracts, facade/provider/adapter layers,
+  wrapper-only APIs, compatibility fallbacks, defensive clutter, null
+  normalization, broad suppressions, or fake architecture are blockers
+- performance regressions, repeated work, introduced GC-churn, or heap
+  allocation in hot paths are blockers
+- serialization, persistence, state replay, or runtime-boundary drift is a
+  blocker
+- same relative path and basename for mirrored runtime files
+- same public constants/functions/classes/methods per file pair
+- same runtime representation and ownership shape
+- no fake/stub/type-only mirror files
+- exclusions must be explicit and justified
+
+Return blockers only.
+```
+
+Do not present a local checklist pass as an independent review.
+
 ## Feature Work
 
 - Add behavior at the owner. Avoid callback injection, wrapper APIs, and new

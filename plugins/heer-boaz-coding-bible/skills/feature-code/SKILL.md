@@ -22,6 +22,13 @@ Search with `rg` for existing owners, state, helpers, public APIs, tests, and
 language/runtime counterparts. Prefer established project primitives over new
 local patterns.
 
+For mirrored runtime work, apply the mirrored-runtime parity gate in
+`../../references/coding-architecture-rules.md` before and after editing. The
+Codex subagent review in that gate is mandatory and must review the whole diff
+against all Coding Bible code and architecture rules, with parity as an
+additional hard gate. If a Codex subagent cannot be started, the gate has not
+passed and mirrored runtime parity must not be claimed.
+
 ## Feature Gate
 
 Feature code is allowed only when:
@@ -46,3 +53,6 @@ tag is unavoidable, make it say why the code is exceptional or still debt.
 Use the existing project build, test, analyzer, and validation entrypoints for
 the touched area. Add narrower runs only when they increase confidence. Always
 run `git diff --check` before finishing.
+
+For mirrored runtime changes, include the project-local parity audit and the
+Codex subagent code/architecture blocker result before claiming parity.

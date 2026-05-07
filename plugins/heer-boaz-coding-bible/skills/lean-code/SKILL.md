@@ -42,8 +42,14 @@ Report the stop gate and the owner that must be understood first.
 3. Read `../../references/lua-quality-rules.md` for Lua sources.
 4. Read `../../references/cpp-quality-rules.md` for C++ sources.
 5. Use `../../references/reference-implementation-guide.md` for unfamiliar domains.
-6. Make the smallest slice that removes the named disease now.
-7. Audit the diff against `../../references/anti-patterns.md`.
+6. For mirrored runtime cleanup, apply the mirrored-runtime parity gate in
+   `../../references/coding-architecture-rules.md`; the Codex subagent review
+   is mandatory and must review the whole diff against all Coding Bible code
+   and architecture rules, with parity as an additional hard gate. If a Codex
+   subagent cannot be started, the gate has not passed and mirrored runtime
+   parity must not be claimed.
+7. Make the smallest slice that removes the named disease now.
+8. Audit the diff against `../../references/anti-patterns.md`.
 
 ## Analyzer And Tags
 
@@ -63,3 +69,6 @@ For rule work, use `quality-analysis` and read
 Use the existing project build, test, analyzer, and validation entrypoints for
 the touched area. Add narrower runs only when they increase confidence. Always
 run `git diff --check` before finishing.
+
+For mirrored runtime cleanup, include the project-local parity audit and the
+Codex subagent code/architecture blocker result before claiming parity.

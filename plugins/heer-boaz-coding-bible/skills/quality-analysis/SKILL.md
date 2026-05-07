@@ -14,6 +14,12 @@ Read `../../references/quality-analysis-workflow.md` first. For architectural
 judgment, also read `../../references/coding-architecture-rules.md`.
 For Lua findings, read `../../references/lua-quality-rules.md`.
 For C++ findings, read `../../references/cpp-quality-rules.md`.
+For mirrored runtime parity reports, apply the mirrored-runtime parity gate in
+`../../references/coding-architecture-rules.md`; the Codex subagent review is
+mandatory and must review the whole diff against all Coding Bible code and
+architecture rules, with parity as an additional hard gate. If a Codex subagent
+cannot be started, the gate has not passed and mirrored runtime parity must not
+be claimed.
 
 1. Discover the project-local analysis entrypoint from package scripts, task
    files, build files, or documented commands.
@@ -49,4 +55,6 @@ the code is cleaner, not merely quieter.
 Before finishing, audit new analyzer code and touched product code for hidden
 fallbacks, defensive initialization, new indirection, broad skips, repeated
 semantic work, hot-path allocation, and formatting-only noise. Always run
-`git diff --check`.
+`git diff --check`. For mirrored runtime parity reports, include the
+project-local parity audit and the Codex subagent code/architecture blocker
+result before claiming parity.
