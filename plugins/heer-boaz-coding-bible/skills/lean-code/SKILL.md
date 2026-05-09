@@ -48,7 +48,7 @@ Report the stop gate and the owner that must be understood first.
    and architecture rules, with parity as an additional hard gate. If a Codex
    subagent cannot be started, the gate has not passed and mirrored runtime
    parity must not be claimed.
-7. Make the smallest slice that removes the named disease now.
+7. Make the best-practice slice that removes the named disease now.
 8. Audit the diff against `../../references/anti-patterns.md`.
 
 ## Analyzer And Tags
