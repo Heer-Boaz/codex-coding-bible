@@ -35,8 +35,11 @@ work.
 - Run the project-local parity audit when it exists. Do not claim parity unless
   the audit passes for the touched scope.
 - After editing, start a Codex subagent as an independent reviewer. The reviewer
-  must return a blocker for any introduced GC-churn or heap allocation in hot
-  paths. This is a hard fail, not an advisory warning.
+  must return a blocker for enterprise-style code, including GC-churn, heap
+  allocation, indirection, defensive clutter, exception-control flow, or fake
+  ownership in runtime paths unless a concrete construction, parser, decoder,
+  IO, async, or ownership-transfer boundary is explicit. This is a hard fail,
+  not an advisory warning.
 - If Codex subagents cannot be started because the current environment or policy
   does not expose that capability, the gate has not passed. Say that explicitly,
   run the blocker checklist locally, and do not claim mirrored runtime parity.
@@ -53,8 +56,21 @@ Hard rules:
 - wrong ownership, hidden public contracts, facade/provider/adapter layers,
   wrapper-only APIs, compatibility fallbacks, defensive clutter, null
   normalization, broad suppressions, or fake architecture are blockers
-- performance regressions, repeated work, introduced GC-churn, or heap
-  allocation in hot paths are blockers
+- single-call forwarding wrappers and one-line constant-binding range helpers
+  are blockers unless they name a real domain contract outside runtime hot paths
+- enterprise-style code is a blocker: reject object envelopes for scalar state,
+  generic option bags, callback plumbing layers, telemetry/readiness wrappers,
+  manager/facade/provider/service/adapter/broker scaffolding, defensive
+  "just in case" branches, null-normalization, catch-and-continue fallbacks, and
+  exception-shaped control flow unless the diff proves a concrete external
+  boundary requires them
+- exception throwing is a blocker in emulator-visible runtime/device/memory
+  control flow; exceptions are allowed only for impossible internal bugs,
+  construction/configuration failures, tests, tooling, or true external
+  boundaries such as parsers, OS/browser APIs, decoders, network, and file IO
+- performance regressions, repeated work, GC-churn, or heap allocation in
+  emulator/runtime/device code are blockers unless the diff proves a concrete
+  construction, parser, decoder, IO, async, or ownership-transfer boundary
 - serialization, persistence, state replay, or runtime-boundary drift is a
   blocker
 - same relative path and basename for mirrored runtime files
@@ -100,7 +116,14 @@ Do not present a local checklist pass as an independent review.
 - No descriptor-patterns.
 - No facade, host, provider, service, adapter, manager, broker, or registry
   layers when they hide the real owner instead of expressing a domain mechanism.
-- No wrapper-only functions.
+- No wrapper-only functions. Single-call forwarding methods, private one-line
+  delegators, and helpers that only bind constants into another helper are bad
+  code unless they express a real domain contract outside a hot runtime path.
+- No enterprise-style scaffolding in runtime code: object envelopes for a few
+  scalars, generic option bags, callback plumbing layers, telemetry/readiness
+  wrappers, broad "manager" APIs, defensive "just in case" branches,
+  null-normalization, catch-and-continue fallbacks, or exception-shaped control
+  flow are blockers unless a concrete boundary owner requires them.
 - No analyzer suppressions, name/path exemptions, broad skips, or tags that make
   bad code look accepted.
 - No local aliases of shared constants merely to shorten access. Read constants
@@ -109,10 +132,13 @@ Do not present a local checklist pass as an independent review.
 
 ## Async And Readiness
 
-- Use established project primitives for async coordination, asset readiness,
-  task gates, barriers, queues, or schedulers.
-- Do not invent ad-hoc booleans, pending arrays, custom promise gates, or lazy
-  initialization flags when the project already has a real coordination model.
+- Use established project primitives for real cross-owner async coordination,
+  asset readiness, barriers, queues, or schedulers. A task gate is valid only
+  when readiness is an externally observed owner contract, not as telemetry
+  around local runtime/device work.
+- Do not invent ad-hoc booleans, pending arrays, custom promise gates, task
+  gates, or lazy initialization flags when direct lifecycle state can own the
+  same fact.
 - Initialization methods should normally be called exactly once by construction.
 
 ## Utilities
@@ -129,6 +155,16 @@ Do not present a local checklist pass as an independent review.
 - Avoid fresh arrays, objects, closures, strings, normalized values, and parser
   work in hot paths. Use scratch buffers, typed arrays, object pools, cached
   parse results, precomputed lookup tables, or retained state when appropriate.
+- In emulator, runtime, render, audio, input, scheduler, memory, and device code,
+  allocation and GC churn are forbidden by default. New allocation is acceptable
+  only at a real construction, IO/decoder/parser boundary, explicit async
+  boundary, or ownership transfer, and the diff must make that reason obvious.
+- Do not add enterprise-style generic state carriers, option objects, promise
+  chains, task gates, maps, strings, or exception wrappers when direct device or
+  runtime state can own the same fact.
+- Do not add call-depth for the sake of neatness. Inline tiny pass-through
+  operations in emulator hot paths, even when that duplicates a simple range
+  test or device call.
 - Keep string identifiers in constrained or hot runtime surfaces short and local.
 - Precompute expensive parsing, matching, normalization, and dispatch work when
   the same result is used repeatedly.

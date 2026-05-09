@@ -26,6 +26,8 @@ Stop before editing if the likely patch needs:
 - facade, host, provider, service, descriptor, adapter, manager, or broker layers;
 - callback injection to avoid naming the real owner;
 - wrapper-only functions;
+- single-call private delegators or constant-binding helpers in runtime/device
+  paths;
 - lazy initialization in steady-state paths;
 - defensive fallbacks around internal state that should exist;
 - shadow work on a hot path that could update the real backend/device state;
@@ -45,9 +47,9 @@ Report the stop gate and the owner that must be understood first.
 6. For mirrored runtime cleanup, apply the mirrored-runtime parity gate in
    `../../references/coding-architecture-rules.md`; the Codex subagent review
    is mandatory and must review the whole diff against all Coding Bible code
-   and architecture rules, with parity as an additional hard gate. If a Codex
-   subagent cannot be started, the gate has not passed and mirrored runtime
-   parity must not be claimed.
+   and architecture rules, including enterprise-style code blockers, with
+   parity as an additional hard gate. If a Codex subagent cannot be started, the
+   gate has not passed and mirrored runtime parity must not be claimed.
 7. Make the best-practice slice that removes the named disease now.
 8. Audit the diff against `../../references/anti-patterns.md`.
 

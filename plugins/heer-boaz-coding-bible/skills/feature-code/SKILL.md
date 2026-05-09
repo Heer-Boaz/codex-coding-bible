@@ -25,9 +25,10 @@ local patterns.
 For mirrored runtime work, apply the mirrored-runtime parity gate in
 `../../references/coding-architecture-rules.md` before and after editing. The
 Codex subagent review in that gate is mandatory and must review the whole diff
-against all Coding Bible code and architecture rules, with parity as an
-additional hard gate. If a Codex subagent cannot be started, the gate has not
-passed and mirrored runtime parity must not be claimed.
+against all Coding Bible code and architecture rules, including
+enterprise-style code blockers, with parity as an additional hard gate. If a
+Codex subagent cannot be started, the gate has not passed and mirrored runtime
+parity must not be claimed.
 
 ## Feature Gate
 
@@ -36,13 +37,15 @@ Feature code is allowed only when:
 - the behavior has a concrete owner;
 - the public/runtime contract remains explicit;
 - internal invariants fail loudly instead of being hidden;
-- hot paths stay allocation-conscious;
+- hot paths stay allocation-free unless a real boundary proves otherwise;
 - serialization, persistence, or state replay implications are understood;
 - validation can exercise the touched area.
 
-Stop and switch to `lean-code` if the feature would require wrappers, lazy init,
-defensive clutter, facade/host/provider/service layers, descriptor indirection,
-hidden analyzer skips, compatibility fallbacks, or broad cleanup first.
+Stop and switch to `lean-code` if the feature would require wrappers,
+single-call delegators, constant-binding helpers, lazy init, defensive clutter,
+exception-shaped runtime control flow, facade/host/provider/service layers,
+descriptor indirection, hidden analyzer skips, compatibility fallbacks, or broad
+cleanup first.
 
 When touching bad code, keep the feature slice small. Do not copy the mess and
 do not present tagged or suppressed code as clean. If a local comment or quality
